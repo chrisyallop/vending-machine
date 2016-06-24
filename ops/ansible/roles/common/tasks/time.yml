@@ -1,0 +1,59 @@
+---
+  - name: generate locale
+    tags:
+      - config
+      - locale
+    become: yes
+    locale_gen: name={{ locale }} state=present
+
+  - name: update locale
+    tags:
+      - config
+      - locale
+    become: yes
+    shell: update-locale LC_ALL={{ locale }} LANG={{ locale }}
+
+  - name: check current timezone
+    tags:
+      - config
+      - locale
+    become: yes
+    shell: cat /etc/timezone
+    register: current_zone
+
+  - name: remove localtime
+    become: yes
+    file:
+      dest=/etc/localtime
+      state=absent
+    when: current_zone.stdout != timezone
+
+  - name: set /etc/localtime
+    become: yes
+    file:
+      src=/usr/share/zoneinfo/{{ timezone }}
+      dest=/etc/localtime
+      state=link
+    when: current_zone.stdout != timezone
+
+  - name: Set timezone variables
+    tags:
+      - config
+      - locale
+    become: yes
+    copy:
+      content={{ timezone }}
+      dest=/etc/timezone
+      owner=root
+      group=root
+      mode=0644
+    when: current_zone.stdout != timezone
+    notify:
+      - update timezone
+
+  - name: install ntp
+    become: yes
+    tags:
+      - config
+      - locale
+    apt: name=ntp update_cache=yes cache_valid_time=3600 state=present

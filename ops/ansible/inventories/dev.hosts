@@ -1,0 +1,5 @@
+[web]
+192.168.52.2  admin_user=ubuntu public_interface=eth1
+
+[dev:children]
+web

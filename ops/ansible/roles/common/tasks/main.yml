@@ -1,0 +1,6 @@
+---
+  - include: environment.yml
+  - include: time.yml
+  - include: ssh.yml
+  - include: packages.yml
+  - include: vim.yml

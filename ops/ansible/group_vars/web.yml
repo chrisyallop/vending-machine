@@ -1,0 +1,19 @@
+---
+  ########################################################
+  ## WEB SERVER (APPLICATION INDEPENDENT) LEVEL SETTINGS
+
+  ## SSH
+  allowed_users:
+    - "{{ admin_user }}"
+    - "{{ app_name }}"
+
+  ## PHP - See https://github.com/geerlingguy/ansible-role-php
+  php_packages:
+    - php-cli
+
+  php_enable_webserver: false
+  php_use_managed_ini: false
+  php_enable_apc: false
+
+  ################################
+  ## APPLICATION LEVEL SETTINGS

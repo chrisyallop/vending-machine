@@ -1,0 +1,4 @@
+---
+  hostname: dev-vending-machine.chrisyallop.com
+
+  app_env: pde

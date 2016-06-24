@@ -1,0 +1,8 @@
+---
+  - name: Set the machines hostname
+    tags:
+      - config
+      - environment
+    become: yes
+    hostname:
+      name: "{{ hostname }}"

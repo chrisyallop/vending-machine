@@ -1,0 +1,15 @@
+---
+  app_name: vending-machine
+  hostname: "{{ app_name }}"
+
+  ## Time
+  locale: en_GB.UTF-8
+  timezone: Europe/London
+
+  ## SSH
+
+  admin_authorized_keys:
+    - "https://github.com/chrisyallop.keys"
+
+  allowed_users:
+    - "{{ admin_user }}"

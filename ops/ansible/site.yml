@@ -1,0 +1,6 @@
+---
+  - name: get facts
+    hosts: all
+    remote_user: "{{ admin_user }}"
+
+  - include: web.yml

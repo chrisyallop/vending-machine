@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "`dirname \"$0\"`/_run_from_any_dir"
+ansible-galaxy install -r requirements.yml -p roles
+exit 0
