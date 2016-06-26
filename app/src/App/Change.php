@@ -9,40 +9,40 @@
 namespace App;
 
 /**
- * Responsible for vending things.
+ * Responsible for representing change.
  *
  * @copyright  Copyright (c) 2016 Chris Yallop (http://chrisyallop.com)
  */
-class VendingMachine
+class Change
 {
     /** @var int */
-    protected $sellingPrice;
+    protected $amount;
 
     /**
      * Start the vending machine with the given selling price.
      *
-     * @param int $sellingPrice
+     * @param int $amount
      * @return VendingMachine
      */
-    static public function startWithSellingPrice($sellingPrice)
+    static public function giveAmount($amount)
     {
-        $vendingMachine = new self;
-        $vendingMachine->setSellingPrice($sellingPrice);
+        $change = new self;
+        $change->setAmount($amount);
 
-        return $vendingMachine;
+        return $change;
     }
 
     /**
      * Set the selling price.
      *
-     * @param int $sellingPrice
+     * @param int $amount
      * @return $this
      */
-    private function setSellingPrice($sellingPrice)
+    private function setAmount($amount)
     {
-        $this->assertWholeAmount($sellingPrice);
+        $this->assertWholeAmount($amount);
 
-        $this->sellingPrice = (int) $sellingPrice;
+        $this->amount = (int) $amount;
 
         return $this;
     }
@@ -52,22 +52,29 @@ class VendingMachine
      *
      * @return int
      */
-    public function getSellingPrice()
+    public function getAmount()
     {
-        return $this->sellingPrice;
+        return $this->amount;
     }
 
     /**
-     * Purchase item.
+     * Get the denomination quantity.
      *
-     * @param int $purchaseAmount
-     * @return Change
+     * @return int
      */
-    public function purchaseItem($purchaseAmount)
+    public function getDenominationQuantity()
     {
-        $this->assertWholeAmount($purchaseAmount);
+        return 1;
+    }
 
-        return Change::giveAmount($this->sellingPrice - $purchaseAmount);
+    /**
+     * Get the denomination of coin.
+     *
+     * @return int
+     */
+    public function getDenomination()
+    {
+        return 50;
     }
 
     /**

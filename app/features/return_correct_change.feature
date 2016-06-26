@@ -7,3 +7,12 @@ Feature: Return correct change
     Given a vending machine, dispensing items priced at "100"p
     When I purchase an item for "100"p
     Then I should receive change to the amount of "0"p
+
+  Scenario Outline: Single coin returned
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change to the amount of "<changeAmount>"p in "<denominationQuantity>" "<denomination>"p coins
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denominationQuantity | denomination |
+      |     100      |       50       |      50      |          1           |      50      |

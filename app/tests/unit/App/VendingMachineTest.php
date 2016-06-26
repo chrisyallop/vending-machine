@@ -43,9 +43,9 @@ class VendingMachineTest extends TestCase
      */
     public function testPurchasingAnItemAcceptsWholePennyAmounts(VendingMachine $vendingMachine)
     {
-        $vendoredChangeAmount = $vendingMachine->purchaseItem(100);
+        $change = $vendingMachine->purchaseItem(100);
 
-        $this->assertInternalType('int', $vendoredChangeAmount);
+        $this->assertInternalType('int', $change->getAmount());
     }
 
     /**

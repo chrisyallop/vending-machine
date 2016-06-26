@@ -6,6 +6,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use App\VendingMachine;
+use App\Change;
 
 /**
  * Defines application features from the specific context.
@@ -15,8 +16,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /** @var VendingMachine */
     protected $vendingMachine;
 
-    /** @var integer */
-    protected $vendoredChangeAmount;
+    /** @var Change */
+    protected $change;
 
     /**
      * Initializes context.
@@ -42,14 +43,24 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iPurchaseAnItemForP($purchaseAmount)
     {
-        $this->vendoredChangeAmount = $this->vendingMachine->purchaseItem((int) $purchaseAmount);
+        $this->change = $this->vendingMachine->purchaseItem((int) $purchaseAmount);
     }
 
     /**
-     * @Then I should receive change to the amount of ":expectedChangeAmount"p
+     * @Then I should receive change to the amount of ":changeAmount"p
      */
-    public function iShouldReceiveChangeToTheAmountOfP($expectedChangeAmount)
+    public function iShouldReceiveChangeToTheAmountOfP($changeAmount)
     {
-        PHPUnit_Framework_Assert::assertEquals($expectedChangeAmount, $this->vendoredChangeAmount);
+        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+    }
+
+    /**
+     * @Then I should receive change to the amount of ":changeAmount"p in :denominationQuantity ":denomination"p coins
+     */
+    public function iShouldReceiveChangeToTheAmountOfPInPCoins($changeAmount, $denominationQuantity, $denomination)
+    {
+        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $this->change->getDenominationQuantity());
+        PHPUnit_Framework_Assert::assertEquals($denomination, $this->change->getDenomination());
     }
 }
