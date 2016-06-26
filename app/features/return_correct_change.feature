@@ -16,3 +16,8 @@ Feature: Return correct change
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denominationQuantity | denomination |
       |     100      |       50       |      50      |          1           |      50      |
+      |     100      |       80       |      20      |          1           |      20      |
+      |     100      |       90       |      10      |          1           |      10      |
+      |     100      |       95       |      05      |          1           |      05      |
+      |     100      |       98       |      02      |          1           |      02      |
+      |     100      |       99       |      01      |          1           |      01      |

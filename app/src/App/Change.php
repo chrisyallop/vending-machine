@@ -74,7 +74,7 @@ class Change
      */
     public function getDenomination()
     {
-        return 50;
+        return $this->amount;
     }
 
     /**
