@@ -10,6 +10,10 @@
   ## PHP - See https://github.com/geerlingguy/ansible-role-php
   php_packages:
     - php-cli
+    - php-xml
+    - php-xdebug
+
+  # PHPUnit dependencies are: php-xml, php-xdebug
 
   php_enable_webserver: false
   php_use_managed_ini: false

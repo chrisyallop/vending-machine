@@ -1,0 +1,12 @@
+{
+  "require-dev": {
+      "behat/behat": "3.1.*",
+      "phpunit/phpunit": "5.4.*"
+  },
+  "autoload": {
+      "psr-4": {"App\\": "src/App/"}
+  },
+  "autoload-dev": {
+      "psr-4": {"AppTests\\": "tests/App/"}
+  }
+}

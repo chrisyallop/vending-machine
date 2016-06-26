@@ -4,6 +4,10 @@ Ansible is used to create a reproducible configuration for the web server.
 
 ## Install
 
+### Server
+
+#### Set up server environment
+
 Ansible version 2.0 is required
 
     $ brew install ansible
@@ -11,10 +15,6 @@ Ansible version 2.0 is required
 Install boto
 
     $ easy_install boto
-
-Install the Ansible build dependencies e.g. PHP
-
-    $ ./ops/ansible/scripts/install_requirements
 
 Install Vagrant and Virtualbox
 
@@ -25,6 +25,12 @@ Install helpful Vagrant plugins
 
     $ vagrant plugin install vagrant-hostsupdater
 
+#### Run the server
+
+Install the Ansible build dependencies e.g. PHP
+
+    $ ./ops/ansible/scripts/install_requirements
+
 Use the most up to date version of Ubuntu (if a previous version already exists)
 
     $ vagrant box update
@@ -32,6 +38,12 @@ Use the most up to date version of Ubuntu (if a previous version already exists)
 To start a vagrant box
 
     $ vagrant up
+
+### Application
+
+Install dependencies
+
+    $ composer install
 
 ## Maintenance
 
