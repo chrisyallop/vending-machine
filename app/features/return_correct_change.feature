@@ -30,3 +30,4 @@ Feature: Return correct change
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 |
       |      30      |       100      |      70      |      50        |      20        |
+      |      40      |       100      |      60      |      50        |      10        |

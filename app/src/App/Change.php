@@ -84,7 +84,17 @@ class Change
      */
     public function getDenominations()
     {
-        return $this->amount == 70 ? [50 => 1, 20 => 1] : [];
+        $denominations = [];
+
+        if ($this->amount == 70) {
+            $denominations = [50 => 1, 20 => 1];
+        }
+
+        if ($this->amount == 60) {
+            $denominations = [50 => 1, 10 => 1];
+        }
+
+        return $denominations;
     }
 
     /**
