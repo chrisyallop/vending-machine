@@ -55,9 +55,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should receive change to the amount of ":changeAmount"p in :denominationQuantity ":denomination"p coins
+     * @Then I should receive change to the amount of ":changeAmount"p in :denominationQuantity denomination of ":denomination"p coins
      */
-    public function iShouldReceiveChangeToTheAmountOfPInPCoins($changeAmount, $denominationQuantity, $denomination)
+    public function iShouldReceiveChangeToTheAmountOfPInDenominationOfPCoins($changeAmount, $denominationQuantity, $denomination)
     {
         PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
         PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $this->change->getDenominationQuantity());

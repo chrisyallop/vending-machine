@@ -11,13 +11,13 @@ Feature: Return correct change
   Scenario Outline: Single coin returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
-    Then I should receive change to the amount of "<changeAmount>"p in "<denominationQuantity>" "<denomination>"p coins
+    Then I should receive change to the amount of "<changeAmount>"p in "1" denomination of "<denominationAmount>"p coins
 
     Examples:
-      | sellingPrice | purchaseAmount | changeAmount | denominationQuantity | denomination |
-      |      50      |       100      |      50      |          1           |      50      |
-      |      80      |       100      |      20      |          1           |      20      |
-      |      90      |       100      |      10      |          1           |      10      |
-      |      95      |       100      |      05      |          1           |      05      |
-      |      98      |       100      |      02      |          1           |      02      |
-      |      99      |       100      |      01      |          1           |      01      |
+      | sellingPrice | purchaseAmount | changeAmount | denominationAmount |
+      |      50      |       100      |      50      |      50            |
+      |      80      |       100      |      20      |      20            |
+      |      90      |       100      |      10      |      10            |
+      |      95      |       100      |      05      |      05            |
+      |      98      |       100      |      02      |      02            |
+      |      99      |       100      |      01      |      01            |
