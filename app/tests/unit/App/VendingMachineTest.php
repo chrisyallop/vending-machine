@@ -8,7 +8,7 @@
 
 namespace AppTests;
 
-use App\VendingMachine;
+use App\Domain\Model\VendingMachine;
 use PHPUnit\Framework\TestCase;
 
 /**

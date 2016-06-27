@@ -5,8 +5,8 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use App\VendingMachine;
-use App\Change;
+use App\Domain\Model\VendingMachine;
+use App\Domain\Model\Change;
 
 /**
  * Defines application features from the specific context.

@@ -6,7 +6,7 @@
  * @copyright  2016
  */
 
-namespace App;
+namespace App\Domain\Model;
 
 /**
  * Responsible for vending things.
