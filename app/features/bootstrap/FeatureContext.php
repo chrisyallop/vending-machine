@@ -63,4 +63,26 @@ class FeatureContext implements Context, SnippetAcceptingContext
         PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $this->change->getDenominationQuantity());
         PHPUnit_Framework_Assert::assertEquals($denomination, $this->change->getDenomination());
     }
+
+    /**
+     * @Then I should receive change to the amount of ":changeAmount"p with :denominationQuantity_1 denomination at ":denomination_1"p and :denominationQuantity_2 denomination at ":denomination_2"p
+     */
+    public function iShouldReceiveChangeToTheAmountOfPWithDenominationAtPAndDenominationAtP(
+        $changeAmount,
+        $denominationQuantity_1,
+        $denomination_1,
+        $denominationQuantity_2,
+        $denomination_2
+    ) {
+        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+
+        $denominations = $this->change->getDenominations();
+
+        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
+        PHPUnit_Framework_Assert::assertCount(2, $denominations);
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $denominations);
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $denominations);
+        PHPUnit_Framework_Assert::assertEquals($denominationQuantity_1, $denominations[$denomination_1]);
+        PHPUnit_Framework_Assert::assertEquals($denominationQuantity_2, $denominations[$denomination_2]);
+    }
 }

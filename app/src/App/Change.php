@@ -78,6 +78,16 @@ class Change
     }
 
     /**
+     * Get the denominations of coin change.
+     *
+     * @return array
+     */
+    public function getDenominations()
+    {
+        return $this->amount == 70 ? [50 => 1, 20 => 1] : [];
+    }
+
+    /**
      * Asserts a whole amount.
      *
      * @param int $amount

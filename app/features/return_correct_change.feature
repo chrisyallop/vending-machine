@@ -21,3 +21,12 @@ Feature: Return correct change
       |      95      |       100      |      05      |      05            |
       |      98      |       100      |      02      |      02            |
       |      99      |       100      |      01      |      01            |
+
+  Scenario Outline: Two coins returned
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change to the amount of "<changeAmount>"p with "1" denomination at "<denomination_1>"p and "1" denomination at "<denomination_2>"p
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 |
+      |      30      |       100      |      70      |      50        |      20        |
