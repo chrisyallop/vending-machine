@@ -15,9 +15,9 @@ Feature: Return correct change
 
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denominationQuantity | denomination |
-      |     100      |       50       |      50      |          1           |      50      |
-      |     100      |       80       |      20      |          1           |      20      |
-      |     100      |       90       |      10      |          1           |      10      |
-      |     100      |       95       |      05      |          1           |      05      |
-      |     100      |       98       |      02      |          1           |      02      |
-      |     100      |       99       |      01      |          1           |      01      |
+      |      50      |       100      |      50      |          1           |      50      |
+      |      80      |       100      |      20      |          1           |      20      |
+      |      90      |       100      |      10      |          1           |      10      |
+      |      95      |       100      |      05      |          1           |      05      |
+      |      98      |       100      |      02      |          1           |      02      |
+      |      99      |       100      |      01      |          1           |      01      |

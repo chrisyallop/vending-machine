@@ -67,7 +67,7 @@ class VendingMachine
     {
         $this->assertWholeAmount($purchaseAmount);
 
-        return Change::giveAmount($this->sellingPrice - $purchaseAmount);
+        return Change::giveAmount($purchaseAmount - $this->sellingPrice);
     }
 
     /**
