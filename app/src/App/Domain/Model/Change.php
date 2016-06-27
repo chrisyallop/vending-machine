@@ -58,26 +58,6 @@ class Change
     }
 
     /**
-     * Get the denomination quantity.
-     *
-     * @return int
-     */
-    public function getDenominationQuantity()
-    {
-        return 1;
-    }
-
-    /**
-     * Get the denomination of coin.
-     *
-     * @return int
-     */
-    public function getDenomination()
-    {
-        return $this->amount;
-    }
-
-    /**
      * Get the denominations of coin change.
      *
      * @return array

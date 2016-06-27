@@ -59,9 +59,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iShouldReceiveChangeToTheAmountOfPInDenominationOfPCoins($changeAmount, $denominationQuantity, $denomination)
     {
+        $denominations = $this->change->getDenominations();
+
         PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
-        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $this->change->getDenominationQuantity());
-        PHPUnit_Framework_Assert::assertEquals($denomination, $this->change->getDenomination());
+        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
+        PHPUnit_Framework_Assert::assertCount(1, $denominations);
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
+        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $denominations[$denomination]);
     }
 
     /**

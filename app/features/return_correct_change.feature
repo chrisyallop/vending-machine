@@ -15,12 +15,12 @@ Feature: Return correct change
 
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denominationAmount |
-      |      50      |       100      |      50      |      50            |
-      |      80      |       100      |      20      |      20            |
-      |      90      |       100      |      10      |      10            |
-      |      95      |       100      |      05      |      05            |
-      |      98      |       100      |      02      |      02            |
-      |      99      |       100      |      01      |      01            |
+      |      50      |       100      |      50      |         50         |
+      |      80      |       100      |      20      |         20         |
+      |      90      |       100      |      10      |         10         |
+      |      95      |       100      |       5      |          5         |
+      |      98      |       100      |       2      |          2         |
+      |      99      |       100      |       1      |          1         |
 
   Scenario Outline: Two coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
