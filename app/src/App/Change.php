@@ -84,14 +84,16 @@ class Change
      */
     public function getDenominations()
     {
+        $denominationAmounts = [50,20,10,5,2,1];
         $denominations = [];
+        $changeAmount = $this->amount;
 
-        if ($this->amount == 70) {
-            $denominations = [50 => 1, 20 => 1];
-        }
-
-        if ($this->amount == 60) {
-            $denominations = [50 => 1, 10 => 1];
+        foreach ($denominationAmounts as $denominationAmount) {
+            $denominationQuantity = floor($changeAmount / $denominationAmount);
+            if ($denominationQuantity) {
+                $denominations[$denominationAmount] = $denominationQuantity;
+                $changeAmount -= $denominationAmount * $denominationQuantity;
+            }
         }
 
         return $denominations;
