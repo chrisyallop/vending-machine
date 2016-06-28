@@ -13,6 +13,6 @@ namespace App\Domain\Model;
  *
  * @copyright  Copyright (c) 2016 Chris Yallop (http://chrisyallop.com)
  */
-class NoChangeGivenException extends \RuntimeException
+class InsufficientChangeException extends \RuntimeException
 {
 }
