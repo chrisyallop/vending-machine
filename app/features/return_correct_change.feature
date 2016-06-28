@@ -85,3 +85,17 @@ Feature: Return correct change
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 | denomination_3 | denomination_4 | denomination_5 | denomination_6 | denomination_7 |
       |      12      |       200      |     188      |     100        |      50        |      20        |      10        |       5        |       2        |       1        |
+
+  Scenario: No coins in inventory
+    Given a vending machine, dispensing items priced at "50"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |     0    |
+      |      50      |     0    |
+      |      20      |     0    |
+      |      10      |     0    |
+      |       5      |     0    |
+      |       2      |     0    |
+      |       1      |     0    |
+    When I purchase an item for "100"p
+    Then I should receive the message "No change given"

@@ -5,8 +5,9 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use App\Domain\Model\VendingMachine;
 use App\Domain\Model\Change;
+use App\Domain\Model\NoChangeGivenException;
+use App\Domain\Model\VendingMachine;
 
 /**
  * Defines application features from the specific context.
@@ -31,6 +32,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Transform /^(\d+)$/
+     */
+    public function castStringToNumber($string)
+    {
+        return intval($string);
+    }
+
+    /**
      * @Given a vending machine, dispensing items priced at ":sellingPrice"p
      */
     public function aVendingMachineDispensingItemsPricedAtP($sellingPrice)
@@ -43,7 +52,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iPurchaseAnItemForP($purchaseAmount)
     {
-        $this->change = $this->vendingMachine->purchaseItem((int) $purchaseAmount);
+        try {
+            $this->change = $this->vendingMachine->purchaseItem((int) $purchaseAmount);
+        } catch (NoChangeGivenException $exception) {
+            $this->change = $exception;
+        }
     }
 
     /**
@@ -126,5 +139,30 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }
 
         PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
+    }
+
+    /**
+     * @Given an inventory with the following coins:
+     */
+    public function anInventoryWithTheFollowingCoins(TableNode $inventory)
+    {
+        $startingInventory = [];
+        foreach ($inventory as $inventoryLine) {
+            $denomination   = $inventoryLine['denomination'];
+            $quantity       = $inventoryLine['quantity'];
+
+            $startingInventory[$denomination] = $quantity;
+        }
+
+        $this->vendingMachine->setStartingInventory($startingInventory);
+    }
+
+    /**
+     * @Then I should receive the message :arg1
+     */
+    public function iShouldReceiveTheMessage($arg1)
+    {
+        PHPUnit_Framework_Assert::assertInstanceOf('App\Domain\Model\NoChangeGivenException', $this->change);
+        PHPUnit_Framework_Assert::assertEquals('No change given', $this->change->getMessage());
     }
 }

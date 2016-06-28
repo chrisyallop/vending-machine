@@ -18,22 +18,64 @@ class Change
     /** @var int */
     protected $amount;
 
+    /** @var array */
+    protected $inventory;
+
     /**
-     * Start the vending machine with the given selling price.
+     * Change constructor.
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * Set the amount of change by total value.
      *
      * @param int $amount
-     * @return VendingMachine
+     * @return Change
      */
     static public function giveAmount($amount)
     {
         $change = new self;
         $change->setAmount($amount);
+        $change->setInventory($change->getDenominations());
 
         return $change;
     }
 
     /**
-     * Set the selling price.
+     * Set the amount of change by inventory.
+     *
+     * @param array $inventory
+     * @return Change
+     */
+    static public function giveAmountByInventory(array $inventory)
+    {
+        $change = new self;
+        $change->setInventory($inventory);
+        $change->setAmount(Change::calculateAmountFromInventory($inventory));
+
+        return $change;
+    }
+
+    /**
+     * Calculate the amount from inventory.
+     *
+     * @param array $inventory
+     * @return int
+     */
+    static public function calculateAmountFromInventory(array $inventory)
+    {
+        $amount = 0;
+        foreach ($inventory as $denominationAmount => $denominationQuantity) {
+            $amount += $denominationQuantity * $denominationAmount;
+        }
+
+        return $amount;
+    }
+
+    /**
+     * Set the amount.
      *
      * @param int $amount
      * @return $this
@@ -45,6 +87,29 @@ class Change
         $this->amount = (int) $amount;
 
         return $this;
+    }
+
+    /**
+     * Set the inventory.
+     *
+     * @param array $inventory
+     * @return $this
+     */
+    private function setInventory(array $inventory)
+    {
+        $this->inventory = $inventory;
+
+        return $this;
+    }
+
+    /**
+     * Get the inventory.
+     *
+     * @return array
+     */
+    public function getInventory()
+    {
+        return $this->inventory;
     }
 
     /**
@@ -77,6 +142,21 @@ class Change
         }
 
         return $denominations;
+    }
+
+    /**
+     * Deduct an amount of money.
+     *
+     * @param Change $amount
+     * @return Change
+     */
+    public function deduct(Change $amount)
+    {
+        if ($this->getAmount() < $amount->getAmount()) {
+            throw new NoChangeGivenException('No change given');
+        }
+
+        return Change::giveAmount($this->getAmount() - $amount->getAmount());
     }
 
     /**

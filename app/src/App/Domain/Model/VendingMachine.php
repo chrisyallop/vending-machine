@@ -18,6 +18,9 @@ class VendingMachine
     /** @var int */
     protected $sellingPrice;
 
+    /** @var Change */
+    protected $inventory;
+
     /**
      * Start the vending machine with the given selling price.
      *
@@ -67,7 +70,46 @@ class VendingMachine
     {
         $this->assertWholeAmount($purchaseAmount);
 
-        return Change::giveAmount($purchaseAmount - $this->sellingPrice);
+        $changeAmount = $purchaseAmount - $this->sellingPrice;
+
+        if ($this->hasInventory()) {
+            return $this->inventory->deduct(Change::giveAmount($changeAmount));
+        }
+
+        return Change::giveAmount($changeAmount);
+    }
+
+    /**
+     * Check if there is an inventory.
+     *
+     * @return bool
+     */
+    public function hasInventory()
+    {
+        return $this->inventory instanceof Change;
+    }
+
+    /**
+     * Set inventory.
+     *
+     * @param array $inventory
+     * @return $this
+     */
+    public function setStartingInventory(array $inventory)
+    {
+        $this->inventory = Change::giveAmountByInventory($inventory);
+
+        return $this;
+    }
+
+    /**
+     * Get inventory.
+     *
+     * @return array
+     */
+    public function getInventory()
+    {
+        return $this->inventory->getInventory();
     }
 
     /**
