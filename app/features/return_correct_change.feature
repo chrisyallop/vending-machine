@@ -22,7 +22,7 @@ Feature: Return correct change
       |      98      |       100      |       2      |          2         |
       |      99      |       100      |       1      |          1         |
 
-  Scenario Outline: Two unique coins returned
+  Scenario Outline: Two coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
     Then I should receive change to the amount of "<changeAmount>"p with "1" denomination at "<denomination_1>"p and "1" denomination at "<denomination_2>"p
@@ -40,6 +40,7 @@ Feature: Return correct change
       |      45      |       100      |      55      |      50        |       5        |
       |      48      |       100      |      52      |      50        |       2        |
       |      49      |       100      |      51      |      50        |       1        |
+      |      60      |       100      |      40      |      20        |      20        |
       |      70      |       100      |      30      |      20        |      10        |
       |      75      |       100      |      25      |      20        |       5        |
       |      78      |       100      |      22      |      20        |       2        |
@@ -49,14 +50,15 @@ Feature: Return correct change
       |      89      |       100      |      11      |      10        |       1        |
       |      93      |       100      |       7      |       5        |       2        |
       |      94      |       100      |       6      |       5        |       1        |
+      |      96      |       100      |       4      |       2        |       2        |
       |      97      |       100      |       3      |       2        |       1        |
 
-  Scenario Outline: Two duplicate coins returned
+  Scenario Outline: Three coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
-    Then I should receive change to the amount of "<changeAmount>"p with "2" denominations at "<denomination>"p
+    Then I should receive change to the amount of "<changeAmount>"p with "1" denomination at "<denomination_1>"p and "1" denomination at "<denomination_2>"p and "1" denomination at "<denomination_3>"p
 
     Examples:
-      | sellingPrice | purchaseAmount | changeAmount | denomination |
-      |      60      |       100      |      40      |      20      |
-      |      96      |       100      |       4      |       2      |
+      | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 | denomination_3 |
+      |      91      |       100      |       9      |       5        |       2        |       2        |
+      |      92      |       100      |       8      |       5        |       2        |       1        |
