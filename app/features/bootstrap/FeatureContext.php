@@ -59,19 +59,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function inTheDenominationsOfOneP($denomination)
     {
-        $denominations = $this->change->getDenominations();
+        $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
-
-        $denominationsTotal = 0;
-        foreach ($denominations as $denominationAmount => $denominationQuantity) {
-            $denominationsTotal += $denominationQuantity * $denominationAmount;
-        }
-
-        PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
-
-        PHPUnit_Framework_Assert::assertEquals(1, array_sum($denominations));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $this->change->getDenominations());
     }
 
     /**
@@ -79,26 +70,29 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function inTheDenominationsOfOnePAndOneP($denomination_1, $denomination_2)
     {
-        $denominations = $this->change->getDenominations();
+        $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
-
-        $denominationsTotal = 0;
-        foreach ($denominations as $denominationAmount => $denominationQuantity) {
-            $denominationsTotal += $denominationQuantity * $denominationAmount;
-        }
-
-        PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
-
-        PHPUnit_Framework_Assert::assertEquals(2, array_sum($denominations));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $denominations);
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $denominations);
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getDenominations());
     }
 
     /**
      * @Then in the denominations of one ":denomination_1"p, one ":denomination_2"p and one ":denomination_3"p
      */
     public function inTheDenominationsOfOnePOnePAndOneP($denomination_1, $denomination_2, $denomination_3)
+    {
+        $this->assertDenominationsTotalEqualsChangeAmount();
+
+        $this->assertDenominationsTotalEqualsChangeAmount();
+
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $this->change->getDenominations());
+    }
+
+    protected function assertDenominationsTotalEqualsChangeAmount()
     {
         $denominations = $this->change->getDenominations();
 
@@ -110,10 +104,5 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }
 
         PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
-
-        PHPUnit_Framework_Assert::assertEquals(3, array_sum($denominations));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $denominations);
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $denominations);
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $denominations);
     }
 }
