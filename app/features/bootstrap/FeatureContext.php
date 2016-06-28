@@ -69,17 +69,18 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should receive change to the amount of ":changeAmount"p with :denominationQuantity_1 denomination at ":denomination_1"p and :denominationQuantity_2 denomination at ":denomination_2"p
+     * @Then I should receive change of ":changeAmount"p
      */
-    public function iShouldReceiveChangeToTheAmountOfPWithDenominationAtPAndDenominationAtP(
-        $changeAmount,
-        $denominationQuantity_1,
-        $denomination_1,
-        $denominationQuantity_2,
-        $denomination_2
-    ) {
+    public function iShouldReceiveChangeOfP($changeAmount)
+    {
         PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+    }
 
+    /**
+     * @Then in the denominations of one ":denomination_1"p and one ":denomination_2"p
+     */
+    public function inTheDenominationsOfOnePAndOneP($denomination_1, $denomination_2)
+    {
         $denominations = $this->change->getDenominations();
 
         PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
@@ -89,19 +90,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $denominationsTotal += $denominationQuantity * $denominationAmount;
         }
 
-        PHPUnit_Framework_Assert::assertEquals($changeAmount, $denominationsTotal);
+        PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
 
         PHPUnit_Framework_Assert::assertEquals(2, array_sum($denominations));
         PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $denominations);
         PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $denominations);
-    }
-
-    /**
-     * @Then I should receive change of ":changeAmount"p
-     */
-    public function iShouldReceiveChangeOfP($changeAmount)
-    {
-        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
     }
 
     /**

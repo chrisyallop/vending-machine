@@ -25,7 +25,8 @@ Feature: Return correct change
   Scenario Outline: Two coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
-    Then I should receive change to the amount of "<changeAmount>"p with "1" denomination at "<denomination_1>"p and "1" denomination at "<denomination_2>"p
+    Then I should receive change of "<changeAmount>"p
+    And in the denominations of one "<denomination_1>"p and one "<denomination_2>"p
 
     Examples:
       | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 |
