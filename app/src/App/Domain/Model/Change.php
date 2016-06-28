@@ -64,7 +64,7 @@ class Change
      */
     public function getDenominations()
     {
-        $denominationAmounts = [50,20,10,5,2,1];
+        $denominationAmounts = [100,50,20,10,5,2,1];
         $denominations = [];
         $changeAmount = $this->amount;
 
