@@ -6,7 +6,7 @@ Feature: Return correct change
   Scenario: No change, exact amount given
     Given a vending machine, dispensing items priced at "100"p
     When I purchase an item for "100"p
-    Then I should receive change to the amount of "0"p
+    Then I should receive change of "0"p
 
   Scenario Outline: Single coin returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p

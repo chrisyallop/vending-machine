@@ -47,14 +47,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should receive change to the amount of ":changeAmount"p
-     */
-    public function iShouldReceiveChangeToTheAmountOfP($changeAmount)
-    {
-        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
-    }
-
-    /**
      * @Then I should receive change of ":changeAmount"p
      */
     public function iShouldReceiveChangeOfP($changeAmount)
