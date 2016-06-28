@@ -170,7 +170,7 @@ class Money
     public function deduct(Money $amount)
     {
         if ($this->getAmount() < $amount->getAmount()) {
-            throw new NoChangeGivenException('No change given');
+            throw new InsufficientChangeException('Insufficient change. Please use correct change.');
         }
 
         return Money::fromAmount($this->getAmount() - $amount->getAmount());

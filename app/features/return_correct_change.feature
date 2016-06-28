@@ -98,4 +98,4 @@ Feature: Return correct change
       |       2      |     0    |
       |       1      |     0    |
     When I purchase an item for "100"p
-    Then I should receive the message "No change given"
+    Then I should receive the message "Insufficient change. Please use correct change."

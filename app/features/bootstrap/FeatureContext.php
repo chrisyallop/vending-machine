@@ -6,7 +6,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use App\Domain\Model\Money;
-use App\Domain\Model\NoChangeGivenException;
+use App\Domain\Model\InsufficientChangeException;
 use App\Domain\Model\VendingMachine;
 
 /**
@@ -56,7 +56,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         try {
             $purchaseAmount = Money::fromAmount((int) $purchaseAmount);
             $this->change   = $this->vendingMachine->purchaseItem($purchaseAmount);
-        } catch (NoChangeGivenException $exception) {
+        } catch (InsufficientChangeException $exception) {
             $this->change   = $exception;
         }
     }
@@ -160,11 +160,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should receive the message :arg1
+     * @Then I should receive the message :message
      */
-    public function iShouldReceiveTheMessage($arg1)
+    public function iShouldReceiveTheMessage($message)
     {
-        PHPUnit_Framework_Assert::assertInstanceOf('App\Domain\Model\NoChangeGivenException', $this->change);
-        PHPUnit_Framework_Assert::assertEquals('No change given', $this->change->getMessage());
+        PHPUnit_Framework_Assert::assertInstanceOf('App\Domain\Model\InsufficientChangeException', $this->change);
+        PHPUnit_Framework_Assert::assertEquals($message, $this->change->getMessage());
     }
 }
