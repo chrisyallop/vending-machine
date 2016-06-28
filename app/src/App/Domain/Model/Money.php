@@ -9,17 +9,17 @@
 namespace App\Domain\Model;
 
 /**
- * Responsible for representing change.
+ * Responsible for representing money.
  *
  * @copyright  Copyright (c) 2016 Chris Yallop (http://chrisyallop.com)
  */
-class Change
+class Money
 {
     /** @var int */
     protected $amount;
 
     /** @var array */
-    protected $inventory;
+    protected $coins;
 
     /**
      * Change constructor.
@@ -29,45 +29,45 @@ class Change
     }
 
     /**
-     * Set the amount of change by total value.
+     * Create money from an amount.
      *
      * @param int $amount
-     * @return Change
+     * @return Money
      */
-    static public function giveAmount($amount)
+    static public function fromAmount($amount)
     {
-        $change = new self;
-        $change->setAmount($amount);
-        $change->setInventory($change->getDenominations());
+        $money = new self;
+        $money->setAmount($amount);
+        $money->setCoins($money->getDenominations());
 
-        return $change;
+        return $money;
     }
 
     /**
-     * Set the amount of change by inventory.
+     * Create money from a collection of coins.
      *
-     * @param array $inventory
-     * @return Change
+     * @param array $coins
+     * @return Money
      */
-    static public function giveAmountByInventory(array $inventory)
+    static public function fromCoins(array $coins)
     {
-        $change = new self;
-        $change->setInventory($inventory);
-        $change->setAmount(Change::calculateAmountFromInventory($inventory));
+        $money = new self;
+        $money->setCoins($coins);
+        $money->setAmount(Money::calculateAmountFromCoins($coins));
 
-        return $change;
+        return $money;
     }
 
     /**
-     * Calculate the amount from inventory.
+     * Calculate the amount from coins.
      *
-     * @param array $inventory
+     * @param array $coins
      * @return int
      */
-    static public function calculateAmountFromInventory(array $inventory)
+    static public function calculateAmountFromCoins(array $coins)
     {
         $amount = 0;
-        foreach ($inventory as $denominationAmount => $denominationQuantity) {
+        foreach ($coins as $denominationAmount => $denominationQuantity) {
             $amount += $denominationQuantity * $denominationAmount;
         }
 
@@ -90,30 +90,30 @@ class Change
     }
 
     /**
-     * Set the inventory.
+     * Set the coins.
      *
-     * @param array $inventory
+     * @param array $coins
      * @return $this
      */
-    private function setInventory(array $inventory)
+    private function setCoins(array $coins)
     {
-        $this->inventory = $inventory;
+        $this->coins = $coins;
 
         return $this;
     }
 
     /**
-     * Get the inventory.
+     * Get the coins.
      *
      * @return array
      */
-    public function getInventory()
+    public function getCoins()
     {
-        return $this->inventory;
+        return $this->coins;
     }
 
     /**
-     * Get the selling price.
+     * Get the amount.
      *
      * @return int
      */
@@ -123,21 +123,21 @@ class Change
     }
 
     /**
-     * Get the denominations of coin change.
+     * Get the denominations of coins.
      *
      * @return array
      */
     public function getDenominations()
     {
-        $denominationAmounts = [100,50,20,10,5,2,1];
-        $denominations = [];
-        $changeAmount = $this->amount;
+        $denominationAmounts    = [100,50,20,10,5,2,1];
+        $denominations          = [];
+        $amount                 = $this->amount;
 
         foreach ($denominationAmounts as $denominationAmount) {
-            $denominationQuantity = floor($changeAmount / $denominationAmount);
+            $denominationQuantity = floor($amount / $denominationAmount);
             if ($denominationQuantity) {
                 $denominations[$denominationAmount] = $denominationQuantity;
-                $changeAmount -= $denominationAmount * $denominationQuantity;
+                $amount -= $denominationAmount * $denominationQuantity;
             }
         }
 
@@ -147,16 +147,16 @@ class Change
     /**
      * Deduct an amount of money.
      *
-     * @param Change $amount
-     * @return Change
+     * @param Money $amount
+     * @return Money
      */
-    public function deduct(Change $amount)
+    public function deduct(Money $amount)
     {
         if ($this->getAmount() < $amount->getAmount()) {
             throw new NoChangeGivenException('No change given');
         }
 
-        return Change::giveAmount($this->getAmount() - $amount->getAmount());
+        return Money::fromAmount($this->getAmount() - $amount->getAmount());
     }
 
     /**

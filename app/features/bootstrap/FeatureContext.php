@@ -5,7 +5,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use App\Domain\Model\Change;
+use App\Domain\Model\Money;
 use App\Domain\Model\NoChangeGivenException;
 use App\Domain\Model\VendingMachine;
 
@@ -17,7 +17,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /** @var VendingMachine */
     protected $vendingMachine;
 
-    /** @var Change */
+    /** @var Money */
     protected $change;
 
     /**
@@ -154,7 +154,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $startingInventory[$denomination] = $quantity;
         }
 
-        $this->vendingMachine->setStartingInventory($startingInventory);
+        $this->vendingMachine->setInventory($startingInventory);
     }
 
     /**

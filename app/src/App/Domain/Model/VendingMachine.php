@@ -18,7 +18,7 @@ class VendingMachine
     /** @var int */
     protected $sellingPrice;
 
-    /** @var Change */
+    /** @var Money */
     protected $inventory;
 
     /**
@@ -64,7 +64,7 @@ class VendingMachine
      * Purchase item.
      *
      * @param int $purchaseAmount
-     * @return Change
+     * @return Money
      */
     public function purchaseItem($purchaseAmount)
     {
@@ -73,10 +73,10 @@ class VendingMachine
         $changeAmount = $purchaseAmount - $this->sellingPrice;
 
         if ($this->hasInventory()) {
-            return $this->inventory->deduct(Change::giveAmount($changeAmount));
+            return $this->inventory->deduct(Money::fromAmount($changeAmount));
         }
 
-        return Change::giveAmount($changeAmount);
+        return Money::fromAmount($changeAmount);
     }
 
     /**
@@ -86,7 +86,7 @@ class VendingMachine
      */
     public function hasInventory()
     {
-        return $this->inventory instanceof Change;
+        return $this->inventory instanceof Money;
     }
 
     /**
@@ -95,9 +95,9 @@ class VendingMachine
      * @param array $inventory
      * @return $this
      */
-    public function setStartingInventory(array $inventory)
+    public function setInventory(array $inventory)
     {
-        $this->inventory = Change::giveAmountByInventory($inventory);
+        $this->inventory = Money::fromCoins($inventory);
 
         return $this;
     }
@@ -109,7 +109,7 @@ class VendingMachine
      */
     public function getInventory()
     {
-        return $this->inventory->getInventory();
+        return $this->inventory->getCoins();
     }
 
     /**
