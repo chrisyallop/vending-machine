@@ -75,3 +75,13 @@ Feature: Return correct change
       |       7      |        20      |      13      |      10        |       2        |       1        |
       |       1      |        10      |       9      |       5        |       2        |       2        |
       |       2      |        10      |       8      |       5        |       2        |       1        |
+
+  Scenario Outline: Seven coins returned
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change of "<changeAmount>"p
+    And in the denominations of one "<denomination_1>"p, one "<denomination_2>"p, one "<denomination_3>"p, one "<denomination_4>"p, one "<denomination_5>"p, one "<denomination_6>"p and one "<denomination_7>"p
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 | denomination_3 | denomination_4 | denomination_5 | denomination_6 | denomination_7 |
+      |      12      |       200      |     188      |     100        |      50        |      20        |      10        |       5        |       2        |       1        |
