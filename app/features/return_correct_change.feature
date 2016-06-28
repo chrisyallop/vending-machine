@@ -22,7 +22,7 @@ Feature: Return correct change
       |      98      |       100      |       2      |          2         |
       |      99      |       100      |       1      |          1         |
 
-  Scenario Outline: Two coins returned
+  Scenario Outline: Two unique coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
     Then I should receive change to the amount of "<changeAmount>"p with "1" denomination at "<denomination_1>"p and "1" denomination at "<denomination_2>"p
@@ -47,6 +47,16 @@ Feature: Return correct change
       |      85      |       100      |      15      |      10        |       5        |
       |      88      |       100      |      12      |      10        |       2        |
       |      89      |       100      |      11      |      10        |       1        |
-      |      93      |       100      |      07      |       5        |       2        |
-      |      94      |       100      |      06      |       5        |       1        |
-      |      97      |       100      |      03      |       2        |       1        |
+      |      93      |       100      |       7      |       5        |       2        |
+      |      94      |       100      |       6      |       5        |       1        |
+      |      97      |       100      |       3      |       2        |       1        |
+
+  Scenario Outline: Two duplicate coins returned
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change to the amount of "<changeAmount>"p with "2" denominations at "<denomination>"p
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denomination |
+      |      60      |       100      |      40      |      20      |
+      |      96      |       100      |       4      |       2      |

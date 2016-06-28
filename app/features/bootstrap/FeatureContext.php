@@ -63,7 +63,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
         PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
-        PHPUnit_Framework_Assert::assertCount(1, $denominations);
+        PHPUnit_Framework_Assert::assertEquals(2, array_sum($denominations));
         PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
         PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $denominations[$denomination]);
     }
@@ -83,10 +83,28 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $denominations = $this->change->getDenominations();
 
         PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
-        PHPUnit_Framework_Assert::assertCount(2, $denominations);
+        PHPUnit_Framework_Assert::assertEquals(2, array_sum($denominations));
         PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $denominations);
         PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $denominations);
         PHPUnit_Framework_Assert::assertEquals($denominationQuantity_1, $denominations[$denomination_1]);
         PHPUnit_Framework_Assert::assertEquals($denominationQuantity_2, $denominations[$denomination_2]);
+    }
+
+    /**
+     * @Then I should receive change to the amount of ":changeAmount"p with :denominationQuantity denominations at ":denomination"p
+     */
+    public function iShouldReceiveChangeToTheAmountOfPWithDenominationsAtP(
+        $changeAmount,
+        $denominationQuantity,
+        $denomination
+    ) {
+        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+
+        $denominations = $this->change->getDenominations();
+
+        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
+        PHPUnit_Framework_Assert::assertEquals(2, array_sum($denominations));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
+        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $denominations[$denomination]);
     }
 }
