@@ -44,7 +44,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function aVendingMachineDispensingItemsPricedAtP($sellingPrice)
     {
-        $this->vendingMachine = VendingMachine::startWithSellingPrice((int) $sellingPrice);
+        $sellingPrice           = Money::fromAmount((int) $sellingPrice);
+        $this->vendingMachine   = VendingMachine::startWithSellingPrice($sellingPrice);
     }
 
     /**
@@ -53,9 +54,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iPurchaseAnItemForP($purchaseAmount)
     {
         try {
-            $this->change = $this->vendingMachine->purchaseItem((int) $purchaseAmount);
+            $purchaseAmount = Money::fromAmount((int) $purchaseAmount);
+            $this->change   = $this->vendingMachine->purchaseItem($purchaseAmount);
         } catch (NoChangeGivenException $exception) {
-            $this->change = $exception;
+            $this->change   = $exception;
         }
     }
 

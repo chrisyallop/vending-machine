@@ -15,7 +15,7 @@ namespace App\Domain\Model;
  */
 class VendingMachine
 {
-    /** @var int */
+    /** @var Money */
     protected $sellingPrice;
 
     /** @var Money */
@@ -24,10 +24,10 @@ class VendingMachine
     /**
      * Start the vending machine with the given selling price.
      *
-     * @param int $sellingPrice
+     * @param Money $sellingPrice
      * @return VendingMachine
      */
-    static public function startWithSellingPrice($sellingPrice)
+    static public function startWithSellingPrice(Money $sellingPrice)
     {
         $vendingMachine = new self;
         $vendingMachine->setSellingPrice($sellingPrice);
@@ -38,14 +38,12 @@ class VendingMachine
     /**
      * Set the selling price.
      *
-     * @param int $sellingPrice
+     * @param Money $sellingPrice
      * @return $this
      */
-    private function setSellingPrice($sellingPrice)
+    private function setSellingPrice(Money $sellingPrice)
     {
-        $this->assertWholeAmount($sellingPrice);
-
-        $this->sellingPrice = (int) $sellingPrice;
+        $this->sellingPrice = $sellingPrice;
 
         return $this;
     }
@@ -53,7 +51,7 @@ class VendingMachine
     /**
      * Get the selling price.
      *
-     * @return int
+     * @return Money
      */
     public function getSellingPrice()
     {
@@ -63,20 +61,18 @@ class VendingMachine
     /**
      * Purchase item.
      *
-     * @param int $purchaseAmount
+     * @param Money $purchaseAmount
      * @return Money
      */
-    public function purchaseItem($purchaseAmount)
+    public function purchaseItem(Money $purchaseAmount)
     {
-        $this->assertWholeAmount($purchaseAmount);
-
-        $changeAmount = $purchaseAmount - $this->sellingPrice;
+        $changeAmount = $purchaseAmount->deduct($this->sellingPrice);
 
         if ($this->hasInventory()) {
-            return $this->inventory->deduct(Money::fromAmount($changeAmount));
+            return $this->inventory->deduct($changeAmount);
         }
 
-        return Money::fromAmount($changeAmount);
+        return $changeAmount;
     }
 
     /**
@@ -110,22 +106,5 @@ class VendingMachine
     public function getInventory()
     {
         return $this->inventory->getCoins();
-    }
-
-    /**
-     * Asserts a whole amount.
-     *
-     * @param int $amount
-     * @throws \InvalidArgumentException
-     */
-    protected function assertWholeAmount($amount)
-    {
-        if (!is_int($amount)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Only whole penny amounts are accepted. Given type %s with value %s',
-                gettype($amount),
-                (string) $amount
-            ));
-        }
     }
 }

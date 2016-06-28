@@ -36,6 +36,8 @@ class Money
      */
     static public function fromAmount($amount)
     {
+        self::assertWholeAmount($amount);
+
         $money = new self;
         $money->setAmount($amount);
         $money->setCoins($money->getDenominations());
@@ -56,6 +58,23 @@ class Money
         $money->setAmount(Money::calculateAmountFromCoins($coins));
 
         return $money;
+    }
+
+    /**
+     * Asserts a whole amount.
+     *
+     * @param int $amount
+     * @throws \InvalidArgumentException
+     */
+    static public function assertWholeAmount($amount)
+    {
+        if (!is_int($amount)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Only whole penny amounts are accepted. Given type %s with value %s',
+                gettype($amount),
+                (string) $amount
+            ));
+        }
     }
 
     /**
@@ -82,8 +101,6 @@ class Money
      */
     private function setAmount($amount)
     {
-        $this->assertWholeAmount($amount);
-
         $this->amount = (int) $amount;
 
         return $this;
@@ -157,22 +174,5 @@ class Money
         }
 
         return Money::fromAmount($this->getAmount() - $amount->getAmount());
-    }
-
-    /**
-     * Asserts a whole amount.
-     *
-     * @param int $amount
-     * @throws \InvalidArgumentException
-     */
-    protected function assertWholeAmount($amount)
-    {
-        if (!is_int($amount)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Only whole penny amounts are accepted. Given type %s with value %s',
-                gettype($amount),
-                (string) $amount
-            ));
-        }
     }
 }
