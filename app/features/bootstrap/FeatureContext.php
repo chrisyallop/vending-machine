@@ -55,25 +55,31 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should receive change to the amount of ":changeAmount"p in :denominationQuantity denomination of ":denomination"p coins
-     */
-    public function iShouldReceiveChangeToTheAmountOfPInDenominationOfPCoins($changeAmount, $denominationQuantity, $denomination)
-    {
-        $denominations = $this->change->getDenominations();
-
-        PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
-        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
-        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, array_sum($denominations));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
-        PHPUnit_Framework_Assert::assertEquals($denominationQuantity, $denominations[$denomination]);
-    }
-
-    /**
      * @Then I should receive change of ":changeAmount"p
      */
     public function iShouldReceiveChangeOfP($changeAmount)
     {
         PHPUnit_Framework_Assert::assertEquals($changeAmount, $this->change->getAmount());
+    }
+
+    /**
+     * @Then in the denominations of one ":denomination"p
+     */
+    public function inTheDenominationsOfOneP($denomination)
+    {
+        $denominations = $this->change->getDenominations();
+
+        PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
+
+        $denominationsTotal = 0;
+        foreach ($denominations as $denominationAmount => $denominationQuantity) {
+            $denominationsTotal += $denominationQuantity * $denominationAmount;
+        }
+
+        PHPUnit_Framework_Assert::assertEquals($this->change->getAmount(), $denominationsTotal);
+
+        PHPUnit_Framework_Assert::assertEquals(1, array_sum($denominations));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $denominations);
     }
 
     /**

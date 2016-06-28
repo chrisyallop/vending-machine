@@ -11,16 +11,17 @@ Feature: Return correct change
   Scenario Outline: Single coin returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     When I purchase an item for "<purchaseAmount>"p
-    Then I should receive change to the amount of "<changeAmount>"p in "1" denomination of "<denominationAmount>"p coins
+    Then I should receive change of "<changeAmount>"p
+    And in the denominations of one "<denomination>"p
 
     Examples:
-      | sellingPrice | purchaseAmount | changeAmount | denominationAmount |
-      |      50      |       100      |      50      |         50         |
-      |      80      |       100      |      20      |         20         |
-      |      90      |       100      |      10      |         10         |
-      |      95      |       100      |       5      |          5         |
-      |      98      |       100      |       2      |          2         |
-      |      99      |       100      |       1      |          1         |
+      | sellingPrice | purchaseAmount | changeAmount | denomination |
+      |      50      |       100      |      50      |      50      |
+      |      80      |       100      |      20      |      20      |
+      |      90      |       100      |      10      |      10      |
+      |      95      |       100      |       5      |       5      |
+      |      98      |       100      |       2      |       2      |
+      |      99      |       100      |       1      |       1      |
 
   Scenario Outline: Two coins returned
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
