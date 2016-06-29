@@ -26,20 +26,22 @@
         </style>
     </head>
     <body>
-        <?php if (isset($vendingMachine)) : ?>
-            Current selling price: <?= htmlspecialchars($vendingMachine->getSellingPrice()->getAmount()); ?>
-
+        <?php if (isset($sellingPrice)) : ?>
+            Current selling price: <?= htmlspecialchars($sellingPrice); ?><br />
+            Starting inventory: <?= htmlspecialchars(print_r($startingInventory, true)); ?>
             <hr/>
 
             <form method="get" accept-charset="utf-8" action="/index.phtml" enctype="application/x-www-form-urlencoded">
-                <input type="number" name="purchaseAmount" />
+                <input type="number" name="purchaseAmount" value="<?= isset($purchaseAmount) ? $purchaseAmount : '' ?>" />
                 <input type="submit" name="submit" />
             </form>
 
             <hr/>
 
             <?php if (isset($change)) : ?>
-                Change amount: <?= htmlspecialchars($change->getAmount()); ?>
+                Change amount: <?= htmlspecialchars($change->getAmount()); ?><br />
+                Denominations: <?= htmlspecialchars(print_r($change->getCoins(), true)); ?><br />
+                Closing inventory: <?= htmlspecialchars(print_r($closingInventory, true)); ?>
             <?php endif; ?>
 
         <?php else: ?>
