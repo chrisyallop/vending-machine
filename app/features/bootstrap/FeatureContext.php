@@ -151,7 +151,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $startingInventory = [];
         foreach ($inventory as $inventoryLine) {
             $denomination   = $inventoryLine['denomination'];
-            $quantity       = $inventoryLine['quantity'];
+            $quantity       = (int) $inventoryLine['quantity'];
 
             $startingInventory[$denomination] = $quantity;
         }
@@ -166,5 +166,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         PHPUnit_Framework_Assert::assertInstanceOf('App\Domain\Model\InsufficientChangeException', $this->change);
         PHPUnit_Framework_Assert::assertEquals($message, $this->change->getMessage());
+    }
+
+    /**
+     * @Then a remaining inventory of:
+     */
+    public function aRemainingInventoryOf(TableNode $inventory)
+    {
+        $remainingInventory = [];
+        foreach ($inventory as $inventoryLine) {
+            $denomination   = $inventoryLine['denomination'];
+            $quantity       = (int) $inventoryLine['quantity'];
+
+            $remainingInventory[$denomination] = $quantity;
+        }
+
+        PHPUnit_Framework_Assert::assertEquals($remainingInventory, $this->vendingMachine->getInventory());
     }
 }

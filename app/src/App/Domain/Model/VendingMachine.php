@@ -68,10 +68,15 @@ class VendingMachine
     {
         $this->checkForSufficientPaymentAmount($purchaseAmount);
 
-        $changeAmount = $purchaseAmount->deduct($this->sellingPrice);
-
         if ($this->hasInventory()) {
             $this->checkForSufficientChangeAmount($purchaseAmount);
+            $this->inventory    = $this->inventory->add($purchaseAmount);
+
+            $deductionResult    = $this->inventory->deduct(Money::fromAmount($this->getChangeAmount($purchaseAmount)));
+            $this->inventory    = $deductionResult['newAmount'];
+            $changeAmount       = $deductionResult['deductedCoins'];
+        } else {
+            $changeAmount       = Money::fromAmount($this->getChangeAmount($purchaseAmount));
         }
 
         return $changeAmount;

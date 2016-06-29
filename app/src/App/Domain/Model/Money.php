@@ -21,11 +21,15 @@ class Money
     /** @var array */
     protected $coins;
 
+    /** @var array */
+    protected $availableDenominations = [];
+
     /**
      * Change constructor.
      */
     private function __construct()
     {
+        $this->availableDenominations = [100,50,20,10,5,2,1];
     }
 
     /**
@@ -179,6 +183,28 @@ class Money
     }
 
     /**
+     * Add an amount of money.
+     *
+     * @param Money $amount
+     * @return Money
+     */
+    public function add(Money $amount)
+    {
+        $coins = $this->getCoins();
+        foreach ($this->availableDenominations as $denomination) {
+            if ($amount->hasCoin($denomination)) {
+                if (array_key_exists($denomination, $coins)) {
+                    $coins[$denomination] += $amount->getCoinQuantityByDenomination($denomination);
+                } else {
+                    $coins[$denomination] = $amount->getCoinQuantityByDenomination($denomination);
+                }
+            }
+        }
+
+        return self::fromCoins($coins);
+    }
+
+    /**
      * Deduct an amount of money.
      *
      * @param Money $amount
@@ -186,6 +212,13 @@ class Money
      */
     public function deduct(Money $amount)
     {
+        if ($amount->getAmount() == 0) {
+            return [
+                'newAmount'     => $this,
+                'deductedCoins' => Money::fromAmount(0)
+            ];
+        }
+
         if ($this->getAmount() < $amount->getAmount()) {
             throw new CannotDeductLargerAmountFromSmallerAmountException(sprintf(
                 'Cannot deduct a larger amount from a smaller amount. Tried deducting %d from %d.',
@@ -194,20 +227,82 @@ class Money
             ));
         }
 
-        return Money::fromAmount($this->getAmount() - $amount->getAmount());
+        if (!$this->hasSufficientChange($amount->getAmount())) {
+            throw new InsufficientChangeException('Insufficient change. Please use correct change.');
+        }
+
+        $coins          = $this->coins;
+        $changeRequired = $amount->getAmount();
+        $returnChange   = [];
+
+        // loop available coins by denomination
+        foreach ($coins as $coin => $quantity) {
+            if ($quantity < 1) {
+                continue;
+            }
+
+            // loop all quantities of an available coin
+            for ($i=1; $i <= $quantity; $i++){
+                if ($coin <= $changeRequired) {
+                    if (array_key_exists($coin, $returnChange)) {
+                        $returnChange[$coin] += 1;
+                    } else {
+                        $returnChange[$coin] = 1;
+                    }
+
+                    $coins[$coin]   -= 1;     // deduct quantity available
+                    $changeRequired -= $coin; // deduct change amount required
+                }
+            }
+        }
+
+        return [
+            'newAmount'     => Money::fromCoins($coins),
+            'deductedCoins' => self::fromCoins($returnChange)
+        ];
     }
 
     public function hasSufficientChange($changeAmount)
     {
         $coins          = $this->coins;
+        $changeRequired = $changeAmount;
         $returnChange   = [];
 
+        // loop available coins by denomination
         foreach ($coins as $coin => $quantity) {
-            if ($coin <= $changeAmount && $quantity > 0) {
-                $returnChange[$coin] = 1;
+            if ($quantity < 1) {
+                continue;
+            }
+
+            // loop all quantities of an available coin
+            for ($i=1; $i <= $quantity; $i++){
+                if ($coin <= $changeRequired) {
+                    if (array_key_exists($coin, $returnChange)) {
+                        $returnChange[$coin] += 1;
+                    } else {
+                        $returnChange[$coin] = 1;
+                    }
+
+                    $coins[$coin]   -= 1;     // deduct quantity available
+                    $changeRequired -= $coin; // deduct change amount required
+                }
             }
         }
 
-        return $changeAmount == self::fromCoins($returnChange)->getAmount();
+        return !empty($returnChange) && $changeAmount == self::fromCoins($returnChange)->getAmount();
+    }
+
+    public function hasCoin($coinDenomination)
+    {
+        return array_key_exists($coinDenomination, $this->coins);
+    }
+
+    public function getCoinQuantityByDenomination($coinDenomination)
+    {
+        if ($this->hasCoin($coinDenomination)) {
+            return $this->coins[$coinDenomination];
+        };
+
+        return 0;
     }
 }

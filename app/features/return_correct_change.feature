@@ -99,3 +99,41 @@ Feature: Return correct change
       |       1      |     0    |
     When I purchase an item for "100"p
     Then I should receive the message "Insufficient change. Please use correct change."
+
+  Scenario: Exact amount given with inventory
+    Given a vending machine, dispensing items priced at "100"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |    11    |
+      |      50      |    24    |
+      |      20      |     0    |
+      |      10      |    99    |
+      |       5      |   200    |
+      |       2      |    11    |
+      |       1      |    23    |
+    When I purchase an item for "100"p
+    Then I should receive change of "0"p
+
+  Scenario: Single coin returned with inventory
+    Given a vending machine, dispensing items priced at "50"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |    11    |
+      |      50      |    24    |
+      |      20      |     0    |
+      |      10      |    99    |
+      |       5      |   200    |
+      |       2      |    11    |
+      |       1      |    23    |
+    When I purchase an item for "100"p
+    Then I should receive change of "50"p
+    And in the denominations of one "50"p
+    And a remaining inventory of:
+        | denomination | quantity |
+        |     100      |    12    |
+        |      50      |    23    |
+        |      20      |     0    |
+        |      10      |    99    |
+        |       5      |   200    |
+        |       2      |    11    |
+        |       1      |    23    |
