@@ -87,9 +87,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getCoins()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getCoins());
     }
 
     /**
@@ -131,7 +131,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
     protected function assertDenominationsTotalEqualsChangeAmount()
     {
-        $denominations = $this->change->getDenominations();
+        $denominations = $this->change->getCoins();
 
         PHPUnit_Framework_Assert::assertInternalType('array', $denominations);
 

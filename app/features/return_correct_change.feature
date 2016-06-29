@@ -137,3 +137,27 @@ Feature: Return correct change
         |       5      |   200    |
         |       2      |    11    |
         |       1      |    23    |
+
+  Scenario: Correct change returned when inventory is missing a denomination
+    Given a vending machine, dispensing items priced at "80"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |    11    |
+      |      50      |    24    |
+      |      20      |     0    |
+      |      10      |    99    |
+      |       5      |   200    |
+      |       2      |    11    |
+      |       1      |    23    |
+    When I purchase an item for "100"p
+    Then I should receive change of "20"p
+    And in the denominations of one "10"p and one "10"p
+    And a remaining inventory of:
+        | denomination | quantity |
+        |     100      |    12    |
+        |      50      |    24    |
+        |      20      |     0    |
+        |      10      |    97    |
+        |       5      |   200    |
+        |       2      |    11    |
+        |       1      |    23    |
