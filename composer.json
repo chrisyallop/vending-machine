@@ -9,5 +9,11 @@
   },
   "autoload-dev": {
       "psr-4": {"AppTests\\": "tests/App/"}
+  },
+  "require": {
+      "php": ">=5.5.0",
+      "slim/slim": "^3.4",
+      "slim/php-view": "^2.0",
+      "monolog/monolog": "^1.17"
   }
 }
