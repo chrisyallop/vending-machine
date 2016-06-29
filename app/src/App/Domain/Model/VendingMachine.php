@@ -66,10 +66,12 @@ class VendingMachine
      */
     public function purchaseItem(Money $purchaseAmount)
     {
+        $this->checkForSufficientPaymentAmount($purchaseAmount);
+
         $changeAmount = $purchaseAmount->deduct($this->sellingPrice);
 
         if ($this->hasInventory()) {
-            return $this->inventory->deduct($changeAmount);
+            $this->checkForSufficientChangeAmount($purchaseAmount);
         }
 
         return $changeAmount;
@@ -106,5 +108,43 @@ class VendingMachine
     public function getInventory()
     {
         return $this->inventory->getCoins();
+    }
+
+    /**
+     * Checks for sufficient payment.
+     *
+     * @param Money $purchaseAmount
+     * @throws InsufficientPaymentAmount
+     */
+    protected function checkForSufficientPaymentAmount(Money $purchaseAmount)
+    {
+        if ($purchaseAmount < $this->sellingPrice) {
+            throw new InsufficientPaymentAmount(sprintf(
+                'Insufficient payment amount. The selling price is %d. You have given %d.',
+                $this->sellingPrice,
+                $purchaseAmount
+            ));
+        }
+    }
+
+    protected function checkForSufficientChangeAmount(Money $purchaseAmount)
+    {
+        if ($this->isExactPurchaseAmount($purchaseAmount)) {
+            return true;
+        }
+
+        if (!$this->inventory->hasSufficientChange($this->getChangeAmount($purchaseAmount))) {
+            throw new InsufficientChangeException('Insufficient change. Please use correct change.');
+        }
+    }
+
+    protected function isExactPurchaseAmount(Money $purchaseAmount)
+    {
+        return 0 == $this->getChangeAmount($purchaseAmount);
+    }
+
+    protected function getChangeAmount(Money $purchaseAmount)
+    {
+        return $purchaseAmount->getAmount() - $this->sellingPrice->getAmount();
     }
 }

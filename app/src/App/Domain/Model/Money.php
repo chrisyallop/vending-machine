@@ -48,6 +48,23 @@ class Money
     /**
      * Create money from a collection of coins.
      *
+     * @param array $coin
+     * @return Money
+     */
+    static public function fromCoin($coin)
+    {
+        $coins = [$coin => 1];
+
+        $money = new self;
+        $money->setCoins($coins);
+        $money->setAmount(Money::calculateAmountFromCoins($coins));
+
+        return $money;
+    }
+
+    /**
+     * Create money from a collection of coins.
+     *
      * @param array $coins
      * @return Money
      */
@@ -170,9 +187,27 @@ class Money
     public function deduct(Money $amount)
     {
         if ($this->getAmount() < $amount->getAmount()) {
-            throw new InsufficientChangeException('Insufficient change. Please use correct change.');
+            throw new CannotDeductLargerAmountFromSmallerAmountException(sprintf(
+                'Cannot deduct a larger amount from a smaller amount. Tried deducting %d from %d.',
+                $amount->getAmount(),
+                $this->getAmount()
+            ));
         }
 
         return Money::fromAmount($this->getAmount() - $amount->getAmount());
+    }
+
+    public function hasSufficientChange($changeAmount)
+    {
+        $coins          = $this->coins;
+        $returnChange   = [];
+
+        foreach ($coins as $coin => $quantity) {
+            if ($coin <= $changeAmount && $quantity > 0) {
+                $returnChange[$coin] = 1;
+            }
+        }
+
+        return $changeAmount == self::fromCoins($returnChange)->getAmount();
     }
 }
