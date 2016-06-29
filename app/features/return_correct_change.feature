@@ -161,3 +161,61 @@ Feature: Return correct change
         |       5      |   200    |
         |       2      |    11    |
         |       1      |    23    |
+
+  Scenario Outline: Single coin returned with inventory
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |    11    |
+      |      50      |    24    |
+      |      20      |     0    |
+      |      10      |    99    |
+      |       5      |   200    |
+      |       2      |    11    |
+      |       1      |    23    |
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change of "<changeAmount>"p
+    And in the denominations of one "<denomination>"p
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denomination |
+      |      50      |       100      |      50      |      50      |
+      |      90      |       100      |      10      |      10      |
+      |      95      |       100      |       5      |       5      |
+      |      98      |       100      |       2      |       2      |
+      |      99      |       100      |       1      |       1      |
+
+  Scenario Outline: Two coins returned with inventory
+    Given a vending machine, dispensing items priced at "<sellingPrice>"p
+    And an inventory with the following coins:
+      | denomination | quantity |
+      |     100      |    11    |
+      |      50      |    24    |
+      |      20      |     0    |
+      |      10      |    99    |
+      |       5      |   200    |
+      |       2      |    11    |
+      |       1      |    23    |
+    When I purchase an item for "<purchaseAmount>"p
+    Then I should receive change of "<changeAmount>"p
+    And in the denominations of one "<denomination_1>"p and one "<denomination_2>"p
+
+    Examples:
+      | sellingPrice | purchaseAmount | changeAmount | denomination_1 | denomination_2 |
+      |      50      |       200      |     150      |     100        |      50        |
+      |      90      |       200      |     110      |     100        |      10        |
+      |      95      |       200      |     105      |     100        |       5        |
+      |      98      |       200      |     102      |     100        |       2        |
+      |      99      |       200      |     101      |     100        |       1        |
+      |      40      |       100      |      60      |      50        |      10        |
+      |      45      |       100      |      55      |      50        |       5        |
+      |      48      |       100      |      52      |      50        |       2        |
+      |      49      |       100      |      51      |      50        |       1        |
+      |      80      |       100      |      20      |      10        |      10        |
+      |      85      |       100      |      15      |      10        |       5        |
+      |      88      |       100      |      12      |      10        |       2        |
+      |      89      |       100      |      11      |      10        |       1        |
+      |      93      |       100      |       7      |       5        |       2        |
+      |      94      |       100      |       6      |       5        |       1        |
+      |      96      |       100      |       4      |       2        |       2        |
+      |      97      |       100      |       3      |       2        |       1        |
