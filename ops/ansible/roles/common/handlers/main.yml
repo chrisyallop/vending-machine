@@ -1,9 +1,0 @@
----
-  - name: restart sshd
-    service:
-      name=ssh
-      state=restarted
-
-  - name: update timezone
-    become: yes
-    command: dpkg-reconfigure --frontend noninteractive tzdata

@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source "`dirname \"$0\"`/_run_from_any_dir"
-ansible-playbook -i inventories/dev.hosts site.yml
-exit 0

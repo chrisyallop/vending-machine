@@ -1,8 +1,0 @@
----
-  - name: web
-    hosts: web
-    remote_user: "{{ admin_user }}"
-    become: yes
-    roles:
-      - common
-      - geerlingguy.php

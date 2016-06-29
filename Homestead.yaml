@@ -2,8 +2,8 @@
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
-hostname: app
-name: app
+hostname: vending-machine
+name: vending-machine
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -12,12 +12,12 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "/Users/chris/NetBeansProjects/playground/vending-machine/app"
-      to: "/home/vagrant/app"
+    - map: "/Users/chris/NetBeansProjects/playground/vending-machine"
+      to: "/home/vagrant/vending-machine"
 
 sites:
     - map: homestead.app
-      to: "/home/vagrant/app/public"
+      to: "/home/vagrant/vending-machine/public"
 
 databases:
     - homestead

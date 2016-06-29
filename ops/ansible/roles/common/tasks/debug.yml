@@ -1,3 +1,0 @@
----
-  - name: Display the current environment
-    debug: msg="App Env is {{ app_env }}"
