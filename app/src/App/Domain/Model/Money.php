@@ -44,7 +44,7 @@ class Money
 
         $money = new self;
         $money->setAmount($amount);
-        $money->setCoins($money->getDenominations());
+        $money->setCoins($money->getOptimalDenominations());
 
         return $money;
     }
@@ -161,7 +161,7 @@ class Money
      *
      * @return array
      */
-    public function getDenominations()
+    public function getOptimalDenominations()
     {
         $denominationAmounts    = [100,50,20,10,5,2,1];
         $denominations          = [];

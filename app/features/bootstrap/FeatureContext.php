@@ -76,8 +76,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getCoins()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination, $this->change->getCoins());
     }
 
     /**
@@ -99,10 +99,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getCoins()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $this->change->getCoins());
     }
 
     /**
@@ -119,14 +119,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
     ) {
         $this->assertDenominationsTotalEqualsChangeAmount();
 
-        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getDenominations()));
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_4, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_5, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_6, $this->change->getDenominations());
-        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_7, $this->change->getDenominations());
+        PHPUnit_Framework_Assert::assertEquals(func_num_args(), array_sum($this->change->getCoins()));
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_1, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_2, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_3, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_4, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_5, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_6, $this->change->getCoins());
+        PHPUnit_Framework_Assert::assertArrayHasKey($denomination_7, $this->change->getCoins());
     }
 
     protected function assertDenominationsTotalEqualsChangeAmount()
