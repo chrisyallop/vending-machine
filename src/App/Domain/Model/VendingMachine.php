@@ -123,11 +123,11 @@ class VendingMachine
      */
     protected function checkForSufficientPaymentAmount(Money $purchaseAmount)
     {
-        if ($purchaseAmount < $this->sellingPrice) {
-            throw new InsufficientPaymentAmount(sprintf(
+        if ($purchaseAmount->getAmount() < $this->sellingPrice->getAmount()) {
+            throw new InsufficientPaymentAmountException(sprintf(
                 'Insufficient payment amount. The selling price is %d. You have given %d.',
-                $this->sellingPrice,
-                $purchaseAmount
+                $this->sellingPrice->getAmount(),
+                $purchaseAmount->getAmount()
             ));
         }
     }

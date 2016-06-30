@@ -15,7 +15,7 @@
         <style type="text/css">
             .price {
                 font-family: 'Kaushan Script', cursive;
-                font-size: 200px;
+                font-size: 135px;
             }
         </style>
 
@@ -74,7 +74,7 @@
 
                             <div class="form-group">
                                 <div class="input-group">
-                                  <input type="number" name="purchaseAmount" class="form-control input-lg" placeholder="Amount" value="<?= isset($purchaseAmount) ? $purchaseAmount : '' ?>">
+                                  <input type="number" name="purchaseAmount" min="<?= htmlspecialchars($sellingPrice); ?>" class="form-control input-lg" placeholder="Amount" value="<?= isset($purchaseAmount) ? $purchaseAmount : '' ?>">
                                   <div class="input-group-addon">p</div>
                                 </div>
                             </div>
@@ -85,74 +85,78 @@
                     <div class="col-md-4">&nbsp;</div>
                 </div>
 
-                <hr/>
+                <?php if (isset($change) && is_array($change->getCoins())) : ?>
 
-                <div class="row">
-                    <div class="col-md-4"><h1><span class="label label-success">Change Amount</span></h1></div>
-                    <div class="col-md-4">
-                        <p class="price text-success"><?= htmlspecialchars($change->getAmount()); ?>p</p>
+                    <hr/>
 
-                        <?php if (isset($change) && is_array($change->getCoins())) : ?>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                  <h3 class="panel-title">Denominations</h3>
+                    <div class="row">
+                        <div class="col-md-4"><h1><span class="label label-success">Change Amount</span></h1></div>
+                        <div class="col-md-4">
+                            <p class="price text-success"><?= htmlspecialchars($change->getAmount()); ?>p</p>
+
+                            <?php if ($change->getAmount() > 0) : ?>
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">Change Denominations</h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Denomination</th>
+                                                    <th>Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($change->getCoins() as $denomination => $quantity) : ?>
+                                                <tr>
+                                                    <th><?= htmlspecialchars($denomination); ?></th>
+                                                    <td><?= htmlspecialchars($quantity); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
-                                <div class="panel-body">
+                            <?php endif; ?>
 
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Denomination</th>
-                                                <th>Quantity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($change->getCoins() as $denomination => $quantity) : ?>
-                                            <tr>
-                                                <th><?= htmlspecialchars($denomination); ?></th>
-                                                <td><?= htmlspecialchars($quantity); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
+                        </div>
+                        <div class="col-md-4">
 
+                            <?php if (isset($closingInventory) && is_array($closingInventory)) : ?>
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">Closing Inventory</h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Denomination</th>
+                                                    <th>Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($closingInventory as $denomination => $quantity) : ?>
+                                                <tr>
+                                                    <th><?= htmlspecialchars($denomination); ?></th>
+                                                    <td><?= htmlspecialchars($quantity); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
-                            </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
 
+                        </div>
                     </div>
-                    <div class="col-md-4">
 
-                        <?php if (isset($closingInventory) && is_array($closingInventory)) : ?>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                  <h3 class="panel-title">Closing Inventory</h3>
-                                </div>
-                                <div class="panel-body">
-
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Denomination</th>
-                                                <th>Quantity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($closingInventory as $denomination => $quantity) : ?>
-                                            <tr>
-                                                <th><?= htmlspecialchars($denomination); ?></th>
-                                                <td><?= htmlspecialchars($quantity); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                    </div>
-                </div>
+                <?php endif; ?>
 
             <?php else: ?>
                 Vending machine is offline
