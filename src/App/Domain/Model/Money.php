@@ -185,7 +185,7 @@ class Money
         foreach ($denominationAmounts as $denominationAmount) {
             $denominationQuantity = floor($amount / $denominationAmount);
             if ($denominationQuantity) {
-                $denominations[$denominationAmount] = $denominationQuantity;
+                $denominations[$denominationAmount] = (int) $denominationQuantity;
                 $amount -= $denominationAmount * $denominationQuantity;
             }
         }

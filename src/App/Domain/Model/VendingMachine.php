@@ -115,7 +115,7 @@ class VendingMachine
      */
     public function getInventory()
     {
-        return $this->inventory->getCoins();
+        return $this->hasInventory() ? $this->inventory->getCoins() : [];
     }
 
     /**
@@ -137,18 +137,9 @@ class VendingMachine
 
     protected function checkForSufficientChangeAmount(Money $purchaseAmount)
     {
-        if ($this->isExactPurchaseAmount($purchaseAmount)) {
-            return true;
-        }
-
         if (!$this->inventory->hasSufficientChange($this->getChangeAmount($purchaseAmount))) {
             throw new InsufficientChangeException('Insufficient change. Please use correct change.');
         }
-    }
-
-    protected function isExactPurchaseAmount(Money $purchaseAmount)
-    {
-        return 0 == $this->getChangeAmount($purchaseAmount);
     }
 
     protected function getChangeAmount(Money $purchaseAmount)
