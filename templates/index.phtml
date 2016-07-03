@@ -74,7 +74,7 @@
 
                             <div class="form-group">
                                 <div class="input-group">
-                                  <input type="number" name="purchaseAmount" min="<?= htmlspecialchars($sellingPrice); ?>" class="form-control input-lg" placeholder="Amount" value="<?= isset($purchaseAmount) ? $purchaseAmount : '' ?>">
+                                  <input type="number" name="purchaseAmount" autofocus required min="<?= htmlspecialchars($sellingPrice); ?>" class="form-control input-lg" placeholder="Amount" value="<?= isset($purchaseAmount) ? $purchaseAmount : '' ?>">
                                   <div class="input-group-addon">p</div>
                                 </div>
                             </div>
