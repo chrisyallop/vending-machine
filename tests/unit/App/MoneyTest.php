@@ -41,6 +41,12 @@ class MoneyTest extends TestCase
         $this->assertFalse($money->hasSufficientChange(50));
     }
 
+    public function testThereIsSufficientChangeWhenNoChangeIsRequired()
+    {
+        $money = Money::fromCoin(10);
+        $this->assertTrue($money->hasSufficientChange(0));
+    }
+
     public function testSufficientChangeWithSingleCoin()
     {
         $money = Money::fromCoin(50);

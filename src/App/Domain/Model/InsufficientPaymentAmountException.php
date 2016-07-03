@@ -9,7 +9,7 @@
 namespace App\Domain\Model;
 
 /**
- * NoChangeGivenException.
+ * InsufficientPaymentAmountException.
  *
  * @copyright  Copyright (c) 2016 Chris Yallop (http://chrisyallop.com)
  */

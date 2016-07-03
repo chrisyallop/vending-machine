@@ -72,3 +72,11 @@ In a browser go to the URL [http://vending-machine/](http://vending-machine/)
     $ vagrant ssh
     $ cd vending-machine/
     $ ./vendor/bin/phpunit
+
+To add code coverage reports within the VM, XDebug needs to be enabled, todo run:
+
+    $ echo "zend_extension=xdebug.so" | sudo tee /etc/php/7.0/cli/conf.d/20-xdebug.ini
+    $ sudo service php7.0-fpm restart
+
+Then re-run phpunit above.
+

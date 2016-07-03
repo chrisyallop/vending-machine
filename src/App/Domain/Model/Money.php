@@ -208,13 +208,6 @@ class Money
      */
     public function deduct(Money $amount)
     {
-        if ($amount->getAmount() == 0) {
-            return [
-                'newAmount'     => $this,
-                'deductedCoins' => Money::fromAmount(0)
-            ];
-        }
-
         if ($this->getAmount() < $amount->getAmount()) {
             throw new CannotDeductLargerAmountFromSmallerAmountException(sprintf(
                 'Cannot deduct a larger amount from a smaller amount. Tried deducting %d from %d.',
@@ -237,15 +230,32 @@ class Money
         ];
     }
 
+    /**
+     * Check if there is sufficient change to return.
+     *
+     * @param $changeAmountRequested
+     * @return bool
+     */
     public function hasSufficientChange($changeAmountRequested)
     {
+        if ($changeAmountRequested == 0) {
+            return true;
+        }
+
         $changeCalculationResult    = $this->calculateChangeGiven($this->coins, $changeAmountRequested);
         $changedReturned            = $changeCalculationResult['changedReturned'];
 
         return !empty($changedReturned) && $changeAmountRequested == self::fromCoins($changedReturned)->getAmount();
     }
 
-    protected function calculateChangeGiven($startingAmount, $changeToDeduct)
+    /**
+     * Calculate the change denomination amounts.
+     *
+     * @param array $startingAmount
+     * @param int $changeToDeduct
+     * @return array
+     */
+    protected function calculateChangeGiven(array $startingAmount, $changeToDeduct)
     {
         $coins          = $startingAmount;
         $changeRequired = $changeToDeduct;
@@ -278,11 +288,23 @@ class Money
         ];
     }
 
+    /**
+     * Check if a specific coin denomination exists.
+     *
+     * @param int $coinDenomination
+     * @return bool
+     */
     public function hasCoin($coinDenomination)
     {
         return array_key_exists($coinDenomination, $this->coins);
     }
 
+    /**
+     * Get the number of coins based on the coin denomination amount.
+     *
+     * @param int $coinDenomination
+     * @return int
+     */
     public function getCoinQuantityByDenomination($coinDenomination)
     {
         if ($this->hasCoin($coinDenomination)) {
