@@ -34,6 +34,30 @@ class MoneyTest extends TestCase
         Money::fromAmount(5.50);
     }
 
+    public function testCreationOfMoneyFromRecognisedDenominations()
+    {
+        $startingMoney = [
+            100 => 10,
+             50 => 10,
+             20 => 10,
+             10 => 10,
+              5 => 10,
+              2 => 10,
+              1 => 10,
+        ];
+
+        $money = Money::fromCoins($startingMoney);
+        $this->assertEquals($startingMoney, $money->getCoins());
+    }
+
+    /**
+     * @expectedException App\Domain\Model\UnrecognisedDenominationException
+     */
+    public function testCreationOfMoneyFromUnrecognisedDenominationFails()
+    {
+        Money::fromCoin(25);
+    }
+
     public function testInsufficientChange()
     {
         $money = Money::fromCoin(20);

@@ -22,7 +22,7 @@ $app->get('/[{name}]', function (\Slim\Http\Request $request, $response, $args) 
 
     $purchaseAmount = $request->getParam('purchaseAmount');
     if ($purchaseAmount) {
-        $purchaseAmount = \App\Domain\Model\Money::fromCoin((int) $purchaseAmount);
+        $purchaseAmount = \App\Domain\Model\Money::fromAmount((int) $purchaseAmount);
         $change         = $vendingMachine->purchaseItem($purchaseAmount);
 
         $args['purchaseAmount']     = $purchaseAmount->getAmount();

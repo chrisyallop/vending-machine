@@ -128,9 +128,24 @@ class Money
      *
      * @param array $coins
      * @return $this
+     * @throws UnrecognisedDenominationException
      */
     private function setCoins(array $coins)
     {
+        $invalidDenominations = [];
+        foreach (array_keys($coins) as $denomination) {
+            if (!in_array($denomination, $this->availableDenominations)) {
+                $invalidDenominations[] = $denomination;
+            }
+        }
+
+        if (count($invalidDenominations)) {
+            throw new UnrecognisedDenominationException(sprintf(
+                'Cannot create money from unrecognised denominations: %s',
+                implode(', ', $invalidDenominations)
+            ));
+        }
+
         $this->coins = $coins;
 
         return $this;

@@ -54,7 +54,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iPurchaseAnItemForP($purchaseAmount)
     {
         try {
-            $purchaseAmount = Money::fromCoin((int) $purchaseAmount);
+            $purchaseAmount = Money::fromAmount((int) $purchaseAmount);
             $this->change   = $this->vendingMachine->purchaseItem($purchaseAmount);
         } catch (InsufficientChangeException $exception) {
             $this->change   = $exception;

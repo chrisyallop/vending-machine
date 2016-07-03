@@ -130,7 +130,7 @@ Feature: Return correct change
     And in the denominations of one "50"p
     And a remaining inventory of:
         | denomination | quantity |
-        |     100      |    12    |
+        |     100      |    11    |
         |      50      |    23    |
         |      20      |     0    |
         |      10      |    99    |
@@ -154,7 +154,7 @@ Feature: Return correct change
     And in the denominations of one "10"p and one "10"p
     And a remaining inventory of:
         | denomination | quantity |
-        |     100      |    12    |
+        |     100      |    11    |
         |      50      |    24    |
         |      20      |     0    |
         |      10      |    97    |
@@ -162,7 +162,7 @@ Feature: Return correct change
         |       2      |    11    |
         |       1      |    23    |
 
-  Scenario Outline: Single coin returned with inventory
+  Scenario Outline: Single coin returned with inventory examples
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     And an inventory with the following coins:
       | denomination | quantity |
@@ -185,7 +185,7 @@ Feature: Return correct change
       |      98      |       100      |       2      |       2      |
       |      99      |       100      |       1      |       1      |
 
-  Scenario Outline: Two coins returned with inventory
+  Scenario Outline: Two coins returned with inventory examples
     Given a vending machine, dispensing items priced at "<sellingPrice>"p
     And an inventory with the following coins:
       | denomination | quantity |

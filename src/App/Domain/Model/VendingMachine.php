@@ -70,7 +70,10 @@ class VendingMachine
 
         if ($this->hasInventory()) {
             $this->checkForSufficientChangeAmount($purchaseAmount);
-            $this->inventory    = $this->inventory->add($purchaseAmount);
+
+            // From the amount given, the optimal denominations is selected and added back to the inventory.
+            // However, I later assumed this is not the intended behaviuor for the exercise. This is why it's commented out.
+//            $this->inventory    = $this->inventory->add($purchaseAmount);
 
             $deductionResult    = $this->inventory->deduct(Money::fromAmount($this->getChangeAmount($purchaseAmount)));
             $this->inventory    = $deductionResult['newAmount'];
