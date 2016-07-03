@@ -77,6 +77,26 @@ class MoneyTest extends TestCase
         $this->assertEquals(150, $moMoney->getAmount());
     }
 
+    public function testTheCorrectChangeIsReturnedWhenOptimalChangeIsNotAvailable()
+    {
+        $money = Money::fromCoins([5 => 0, 2 => 4, 1 => 2]);
+
+        $change = $money->deduct(Money::fromAmount(5));
+
+        $this->assertEquals(5, $change['newAmount']->getAmount());
+        $this->assertEquals(0, $change['deductedCoins']->getCoinQuantityByDenomination(5));
+        $this->assertEquals([2 => 2, 1 => 1], $change['deductedCoins']->getCoins());
+    }
+
+    /**
+     * @expectedException App\Domain\Model\CannotDeductLargerAmountFromSmallerAmountException
+     */
+    public function testDeductingALargerAmountFromASmallerAmountFails()
+    {
+        $money      = Money::fromCoin(10);
+        $lessMoney  = $money->deduct(Money::fromCoin(20));
+    }
+
     /**
      * @expectedException App\Domain\Model\InsufficientChangeException
      */
