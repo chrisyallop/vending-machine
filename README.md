@@ -80,3 +80,22 @@ To add code coverage reports within the VM, XDebug needs to be enabled, todo run
 
 Then re-run phpunit above.
 
+## Up and Running via the Web UI
+
+- The selling price is fixed at 50p. No mention in the exercise said how this should be passed. wasn't sure if it should be done with the purchase amount or not, so I modelled the real world and had this amount pre-set, although this can be easily modified when starting up a vending machine through object instantiation or thrugh the UI with some slight tweaks.
+
+## Retrospective
+
+- Wasn't sure how far to go with this exercise. Enough to just show a little bit of using BDD tests and Unit tests, a web based UI and some edge cases or go for perfection.
+- Should have used Mathias Verraes [Money](https://github.com/moneyphp/money) object at the start for re-usability.
+- Should have built a CLI interface from the beginning to better remind myself of the UI than referring to the BeHat context class.
+- Possibly should have saved each part in it's own Git repository.
+- Thinking bigger, I almost added a customer object as the interacter of the Vending Machine as this is who this benefits in the BDD scenarios.
+
+## Other Notes
+
+- The purchase price, once set from the Money::fromAmount() method, will create an amount of money using an optimum denomination.
+- Once the purchase price is set, the optimum denominations were then added to the inventory but this since been commented out. The functionality remains in the code.
+- Non-functional requirements such as logging were left out as this wasn't specifically mentioned as a requirement.
+- Server-side form validation was left out and simple HTML form controls were used.
+- The display of exceptions were left as the default in the Slim Framework as opposed to being tidied up for user presentation.

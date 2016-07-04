@@ -50,7 +50,7 @@ class Money
     }
 
     /**
-     * Create money from a collection of coins.
+     * Create money from a single coin.
      *
      * @param array $coin
      * @return Money
