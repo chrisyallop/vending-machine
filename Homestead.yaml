@@ -12,7 +12,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "/Users/chris/NetBeansProjects/playground/vending-machine"
+    - map: "."
       to: "/home/vagrant/vending-machine"
 
 sites:

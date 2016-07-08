@@ -12,6 +12,12 @@ aliasesPath = "aliases"
 require File.expand_path(confDir + '/scripts/homestead.rb')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+     # If the vagrant box fails to boot, uncomment this and see if the GUI prompts an
+     # alert to reveal more info.
+#    config.vm.provider :virtualbox do |vb|
+#      vb.gui = true
+#    end
+
     if File.exists? aliasesPath then
         config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
     end
