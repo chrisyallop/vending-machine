@@ -1,3 +1,4 @@
 .vagrant
 build
-vendor
+vendor/*
+!vendor/laravel
