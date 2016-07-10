@@ -18,7 +18,7 @@ Note: You may need to enable hardware virtualization (VT-x). It can usually be e
 For each install, accept all the defaults.
 
 - Download and install Virtualbox from [www.virtualbox.org](https://www.virtualbox.org/wiki/Downloads)
-- Download and install Vagrant from [www.vagrantup.com](https://www.vagrantup.com/downloads.html)
+- Download and install Vagrant from [www.vagrantup.com](https://www.vagrantup.com/downloads.html). You will need to restart Windows to complete the install. 
 - Download and install Git from [git-scm.com](https://git-scm.com/downloads)
 
 #### Install a Vagrant dependency to ensure the Virtual Machine successfully boots
@@ -43,13 +43,22 @@ For each install, accept all the defaults.
         $ cd vending-machine
         $ vagrant up
 
-This should now boot up the VM, this may take a minute or two. During this time it should run a shell script when provisioning to install the application dependencies with composer.
+This should now boot up the VM and start to download the Laravel Homestead VM the app will run on. If this does not then run the following:
+
+    $ vagrant box add laravel/homestead
+    $ vagrant up
+
+It will also run a shell script when provisioning to install the application dependencies with composer. If this should fail then you can SSH into the VM and do this manually. If needed run:
+
+    $ vagrant ssh
+    $ cd vending-machine/
+    $ composer install
 
 #### Update hosts file
 
 Finally, an entry is required in your hosts file to view the app in your browser. There are two options here,
 
-1. Manually add to your hosts file the following entry:
+1. Manually add to your hosts file at %WINDIR%\System32\drivers\etc\hosts, the following entry:
 
     192.168.10.10  vending-machine
 
@@ -107,7 +116,7 @@ In a browser go to the URL [http://vending-machine/](http://vending-machine/)
 
 ### BDD tests
 
-From Vagrant VM
+If you want to run the BDD/Behat tests, from the Vagrant VM:
 
     $ vagrant ssh
     $ cd vending-machine/
@@ -115,7 +124,7 @@ From Vagrant VM
 
 ### Unit tests
 
-From Vagrant VM
+If you want to run the unit/PHPUnit tests, from the Vagrant VM:
 
     $ vagrant ssh
     $ cd vending-machine/
