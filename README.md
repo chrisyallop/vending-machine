@@ -4,38 +4,94 @@
 
 - VirtualBox
 - Vagrant
+- Git
+- Visual C++ Redistributable (Windows only)
 
-Install Vagrant and Virtualbox (Mac)
+## Install
+
+### Windows
+
+Note: You may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS.
+
+#### Install Virtualbox, Vagrant and Git
+
+For each install, accept all the defaults.
+
+- Download and install Virtualbox from [www.virtualbox.org](https://www.virtualbox.org/wiki/Downloads)
+- Download and install Vagrant from [www.vagrantup.com](https://www.vagrantup.com/downloads.html)
+- Download and install Git from [git-scm.com](https://git-scm.com/downloads)
+
+#### Install a Vagrant dependency to ensure the Virtual Machine successfully boots
+
+- Download and install the Visual C++ Redistributable from [www.microsoft.com](https://www.microsoft.com/en-us/download/details.aspx?id=48145)
+
+#### Check out the code and launch the app
+
+- Create a projects directory on your filesystem somewhere if this is not already present.
+- Right click on this directory, or inside it, and select `Git Bash Here` from the context menu. This should launch a command prompt.
+- Now we neeed to generate an SSH key to access the Virtual Machine (VM) the application will run on. Vagrant will automatically use the one at ~/.ssh/id_rsa. So, to generate this, if this doesn't already exist, at the command prompt, run (replacing your_email_address with your own or a description that describes the source of this key):
+
+        $ ssh-keygen -C "your_email_address"
+
+- And press enter at all the prompts accepting the defaults.
+- Now clone the code repository with:
+
+        $ git clone https://github.com/chrisyallop/vending-machine.git
+
+- This should now have the code installed on your computer. Now we need to jump into this directory and bring the application's development box online by running:
+
+        $ cd vending-machine
+        $ vagrant up
+
+This should now boot up the VM, this may take a minute or two. During this time it should run a shell script when provisioning to install the application dependencies with composer.
+
+#### Update hosts file
+
+Finally, an entry is required in your hosts file to view the app in your browser. There are two options here,
+
+1. Manually add to your hosts file the following entry:
+
+    192.168.10.10  vending-machine
+
+2. You can run the batch file in the scripts directory. Right click the script at `scripts/add_to_windows_hosts_file.bat` and run as administrator. This should then add the entry within this file.
+
+#### View the app
+
+In a browser go to the URL [http://vending-machine/](http://vending-machine/)
+
+
+### Mac
+
+#### Install Virtualbox and Vagrant
 
     $ brew cask install virtualbox
     $ brew cask install vagrant
 
-Install helpful Vagrant plugins
+#### Install helpful Vagrant plugins
 
     $ vagrant plugin install vagrant-hostsupdater
 
-## Install
-
-### Check out the code
+#### Check out the code
 
     $ git clone https://github.com/chrisyallop/vending-machine.git
 
-### Install dependencies (from inside the cloned project folder)
+#### Launch Vagrant VM
 
-    $ composer install
-
-This should work from both the VM and the host machine
-
-### Launch Vagrant VM
-
+    $ cd vending-machine
     $ vagrant up
 
-This should start to download the Laravel Homestead VM the app will run on. If this does not then run the following:
+This should now boot up the VM and start to download the Laravel Homestead VM the app will run on. If this does not then run the following:
 
     $ vagrant box add laravel/homestead
     $ vagrant up
 
-### Update hosts file
+It will also run a shell script when provisioning to install the application dependencies with composer. If this should fail then you can SSH into the VM and do this manually. If needed run:
+
+    $ vagrant ssh
+    $ cd vending-machine/
+    $ composer install
+
+#### Update hosts file
 
 If you installed the vagrant-hostsupdater plugin you will be asked for your sudo password to add the relevant entry into your hosts file to view the app in your browser.
 
@@ -43,7 +99,7 @@ Otherwise you will need to manually add to your hosts file the following entry:
 
     192.168.10.10  vending-machine
 
-### View the app
+#### View the app
 
 In a browser go to the URL [http://vending-machine/](http://vending-machine/)
 
@@ -51,11 +107,7 @@ In a browser go to the URL [http://vending-machine/](http://vending-machine/)
 
 ### BDD tests
 
-#### From host machine
-
-    $ ./vendor/bin/behat
-
-#### From Vagrant VM
+From Vagrant VM
 
     $ vagrant ssh
     $ cd vending-machine/
@@ -63,22 +115,12 @@ In a browser go to the URL [http://vending-machine/](http://vending-machine/)
 
 ### Unit tests
 
-#### From host machine
-
-    $ ./vendor/bin/phpunit
-
-#### From Vagrant VM
+From Vagrant VM
 
     $ vagrant ssh
     $ cd vending-machine/
     $ ./vendor/bin/phpunit
 
-To add code coverage reports within the VM, XDebug needs to be enabled, todo run:
-
-    $ echo "zend_extension=xdebug.so" | sudo tee /etc/php/7.0/cli/conf.d/20-xdebug.ini
-    $ sudo service php7.0-fpm restart
-
-Then re-run phpunit above.
 
 ## Up and Running via the Web UI
 

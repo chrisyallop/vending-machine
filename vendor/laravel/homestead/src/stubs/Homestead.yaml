@@ -2,8 +2,6 @@
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
-hostname: vending-machine
-name: vending-machine
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -12,15 +10,15 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "."
-      to: "/home/vagrant/vending-machine"
+    - map: ~/Code
+      to: /home/vagrant/Code
 
 sites:
     - map: homestead.app
-      to: "/home/vagrant/vending-machine/public"
+      to: /home/vagrant/Code/Laravel/public
 
-#databases:
-#    - homestead
+databases:
+    - homestead
 
 # blackfire:
 #     - id: foo
