@@ -19,8 +19,8 @@ sites:
     - map: homestead.app
       to: "/home/vagrant/vending-machine/public"
 
-databases:
-    - homestead
+#databases:
+#    - homestead
 
 # blackfire:
 #     - id: foo
